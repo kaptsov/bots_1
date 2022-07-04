@@ -60,7 +60,7 @@ if __name__ == "__main__":
             }
 
         except requests.exceptions.ReadTimeout:
-            print('Новых работ нет..')
+            print('Продолжаем обновление..')
         except requests.exceptions.ConnectionError:
             print('Connnection error')
             sleep(timeout)
