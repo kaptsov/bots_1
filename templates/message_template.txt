@@ -1,5 +1,5 @@
 *Преподаватель проверил работу!*
 
 Проверена работа {{lesson_title}}!
-{{success_text}}
+{{attempt_result_text}}
 Ссылка на задачу: {{lesson_url}}
