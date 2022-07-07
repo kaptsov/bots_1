@@ -15,7 +15,13 @@ def main():
     devman_token = os.getenv('DEVMAN_API_KEY')
     chat_id = os.getenv("TELEGRAM_CHAT_NAME")
     bot = telegram.Bot(token=telegram_token)
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        filename='logging.log',
+        format='%(asctime)s %(message)s',
+        datefmt='%m/%d/%Y %I:%M:%S %p',
+        encoding='utf-8',
+        level=logging.INFO
+    )
 
     headers = {
         'Authorization': devman_token
