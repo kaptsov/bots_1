@@ -5,13 +5,17 @@ from time import sleep, time
 import requests
 import telegram
 from jinja2 import Template
+from environs import Env
 
 
 def main():
 
-    telegram_token = os.environ['BOT_API_KEY']
-    devman_token = os.environ['DEVMAN_API_KEY']
-    chat_id = os.environ["TELEGRAM_CHAT_NAME"]
+    env = Env()
+    env.read_env()
+
+    telegram_token = env('BOT_API_KEY')
+    devman_token = env('DEVMAN_API_KEY')
+    chat_id = env('TELEGRAM_CHAT_NAME')
     bot = telegram.Bot(token=telegram_token)
     logging.basicConfig(
         filename='logging.log',
