@@ -4,16 +4,14 @@ from time import sleep, time
 
 import requests
 import telegram
-from dotenv import load_dotenv
 from jinja2 import Template
 
 
 def main():
 
-    load_dotenv()
-    telegram_token = os.getenv('BOT_API_KEY')
-    devman_token = os.getenv('DEVMAN_API_KEY')
-    chat_id = os.getenv("TELEGRAM_CHAT_NAME")
+    telegram_token = os.environ['BOT_API_KEY']
+    devman_token = os.environ['DEVMAN_API_KEY']
+    chat_id = os.environ["TELEGRAM_CHAT_NAME"]
     bot = telegram.Bot(token=telegram_token)
     logging.basicConfig(
         filename='logging.log',
