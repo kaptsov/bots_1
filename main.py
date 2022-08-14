@@ -1,5 +1,4 @@
 import logging
-import os
 from time import sleep, time
 
 import requests
@@ -18,7 +17,6 @@ def main():
     chat_id = env('TELEGRAM_CHAT_NAME')
     bot = telegram.Bot(token=telegram_token)
     logging.basicConfig(
-        filename='logging.log',
         format='%(asctime)s %(message)s',
         datefmt='%m/%d/%Y %I:%M:%S %p',
         encoding='utf-8',
