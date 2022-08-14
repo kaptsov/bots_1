@@ -7,6 +7,20 @@ from jinja2 import Template
 from environs import Env
 
 
+logger = logging.getLogger(__file__)
+
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
 def main():
 
     env = Env()
@@ -22,6 +36,7 @@ def main():
         encoding='utf-8',
         level=logging.INFO
     )
+    logger.addHandler(TelegramLogsHandler(bot, chat_id))
 
     headers = {
         'Authorization': devman_token
@@ -31,7 +46,7 @@ def main():
     }
 
     timeout = 90
-    logging.info('Опрос запущен')
+    logger.info('Опрос запущен')
     while True:
         try:
             response = requests.get('https://dvmn.org/api/long_polling/',
@@ -47,7 +62,7 @@ def main():
                 }
 
             elif review_data['status'] == 'found':
-                logging.info('Есть обновление')
+                logger.info('Есть обновление')
 
                 for attempt in review_data['new_attempts']:
                     if attempt['is_negative']:
@@ -75,13 +90,13 @@ def main():
                     }
 
         except requests.exceptions.ReadTimeout:
-            logging.warning('Read timeout')
+            logger.warning('Read timeout')
         except requests.exceptions.ConnectionError:
-            logging.warning(f'Ошибка подключения, следующая попытка через {timeout} сек.')
+            logger.warning(f'Ошибка подключения, следующая попытка через {timeout} сек.')
             sleep(timeout)
-            logging.warning('Продолжение опроса...')
+            logger.warning('Продолжение опроса...')
         except Exception:
-            logging.exception('Во время выполнения скипта возникло исключение.')
+            logger.exception('Во время выполнения скипта возникло исключение.')
 
 
 if __name__ == "__main__":
